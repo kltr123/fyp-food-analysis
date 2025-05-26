@@ -1,5 +1,5 @@
 import streamlit as st
-import torch
+from ultralytics import YOLO
 import cv2
 import numpy as np
 from PIL import Image
@@ -13,7 +13,7 @@ st.markdown("Instant meal scanning and health insights using AI")
 
 # Load YOLOv5 from GitHub
 with st.spinner("Loading YOLOv5 model..."):
-    model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+    model = YOLO('yolov5s.pt')
 
 # Mock nutritional database
 mock_nutrition_data = {

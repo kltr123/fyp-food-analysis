@@ -1,7 +1,5 @@
 streamlit
-torch
-torchvision
-torchaudio
+ultralytics
 opencv-python-headless
 pillow
 gtts
