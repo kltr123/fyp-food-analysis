@@ -1,11 +1,11 @@
 import streamlit as st
-from ultralytics import YOLO
 import cv2
 import numpy as np
 from PIL import Image
 from gtts import gTTS
 import os
 import tempfile
+from ultralytics import YOLO
 
 st.set_page_config(page_title="Food Analysis App", layout="centered")
 st.title("🍽️ Food Analysis App")
@@ -13,7 +13,9 @@ st.markdown("Instant meal scanning and health insights using AI")
 
 # Load YOLOv5 from GitHub
 with st.spinner("Loading YOLOv5 model..."):
+   
     model = YOLO('yolov5s.pt')
+
 
 # Mock nutritional database
 mock_nutrition_data = {
@@ -63,14 +65,24 @@ elif mode == "📤 Upload Image":
 # Analyze button
 if image_input is not None and st.button("🔍 Analyze Meal"):
     with st.spinner("Analyzing..."):
-        results = model(image_input)
-        detected_items = results.pandas().xyxy[0]["name"].tolist()
+        results = model.predict(image_input)
+        names = model.names  # class ID -> name map
+        boxes = results[0].boxes
+
+        detected_items = []
+        if boxes is not None:
+            for cls_id in boxes.cls.tolist():
+                label = names[int(cls_id)]
+                detected_items.append(label)
+
         st.success("Detected items: " + ", ".join(detected_items))
 
         # Render results
-        results.render()
-        result_image = Image.fromarray(results.ims[0])
-        st.image(result_image, caption="Detected Objects", use_column_width=True)
+        result_image = results[0].plot()
+        result_rgb = cv2.cvtColor(result_image, cv2.COLOR_BGR2RGB)
+        result_pil = Image.fromarray(result_rgb)
+        st.image(result_pil, caption="Detected Objects", use_column_width=True)
+
 
         # Filter + summarize
         valid_food_labels = list(mock_nutrition_data.keys())
