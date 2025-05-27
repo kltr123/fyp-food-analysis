@@ -13,7 +13,6 @@ st.markdown("Instant meal scanning and health insights using AI")
 
 # Load YOLOv5 from GitHub
 with st.spinner("Loading YOLOv5 model..."):
-   
     model = YOLO('yolov5s.pt')
 
 
