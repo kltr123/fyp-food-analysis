@@ -59,7 +59,7 @@ elif mode == "📤 Upload Image":
     uploaded_file = st.file_uploader("Upload a food image", type=["jpg", "jpeg", "png"])
     if uploaded_file:
         image_input = Image.open(uploaded_file)
-        st.image(image_input, caption="Uploaded Meal", use_column_width=True)
+        st.image(image_input, caption="Uploaded Meal", use_container_width=True)
 
 # Analyze button
 if image_input is not None and st.button("🔍 Analyze Meal"):
