@@ -49,7 +49,7 @@ if mode == "📷 Webcam":
             else:
                 rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 st.session_state["captured_image"] = rgb_frame
-                st.image(rgb_frame, caption="Captured Meal", use_column_width=True)
+                st.image(rgb_frame, caption="Captured Meal", use_container_width=True)
 
     if "captured_image" in st.session_state:
         image_input = st.session_state["captured_image"]
@@ -80,7 +80,7 @@ if image_input is not None and st.button("🔍 Analyze Meal"):
         result_image = results[0].plot()
         result_rgb = cv2.cvtColor(result_image, cv2.COLOR_BGR2RGB)
         result_pil = Image.fromarray(result_rgb)
-        st.image(result_pil, caption="Detected Objects", use_column_width=True)
+        st.image(result_pil, caption="Detected Objects", use_container_width=True)
 
 
         # Filter + summarize
